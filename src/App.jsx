@@ -1,6 +1,6 @@
 import './App.css'
 import chef from './images/photo.jpg'
-import { useState } from 'react'
+import { useReducer } from 'react'
 let heart = '❤️'
 
 function Header({ name, year }) {
@@ -58,18 +58,24 @@ function Main({ dishes, openStatus, onStatus }) {
 
 function App() {
   // parent component
-  const [status, setStatus] = useState(true)
-  console.log(status)
+  // when we use reducer, the first argument expected is a function.
+  const [status, toggle] = useReducer((status) => !status, true)
   return (
     <div>
       <h1> The restaurant is currently {status ? 'Open' : 'Closed'}. </h1>
-      <button onClick={() => setStatus(!status)}>
-        {status ? 'close' : 'open'} restaurant
-      </button>
+      <button onClick={toggle}>{status ? 'close' : 'open'} restaurant</button>
       <Header name='Caro' year={new Date().getFullYear()} />
-      <Main dishes={dishObjects} openStatus={status} onStatus={setStatus} />
+      <Main dishes={dishObjects} openStatus={status} onStatus={toggle} />
     </div>
   )
 }
 
+/* Passing components up would mean all components 
+that use the same state would be in sync 
+ Benefits of Passing State Up
+✅ Keeps components in sync – All child components get the same state.
+✅ Prevents unnecessary duplication – Only one state is needed instead of separate ones.
+✅ Easier debugging – The logic is in one place (parent), reducing complexity.
+✅ Makes components reusable – Since the child doesn’t manage state, it can be used anywhere.
+*/
 export default App

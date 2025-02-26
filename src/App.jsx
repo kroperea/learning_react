@@ -64,7 +64,7 @@ function App() {
   // useEffect is a hook that will change after the state value changes.
   useEffect(() => {
     console.log(`The restaurant is ${status ? 'Open' : 'Closed'}`)
-  }, [status])
+  }, [])
 
   return (
     <div>
